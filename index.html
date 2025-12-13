@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L1nkdr0p</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; font-family:'Arial', sans-serif; }
+    body { background:#000; color:#fff; min-height:100vh; padding:20px; display:flex; flex-direction:column; align-items:center; }
+
+    /* Logo */
+    .logo-container { text-align:center; margin-bottom:30px; }
+    .logo-container img { width:150px; height:auto; animation: glow 2s infinite alternate; }
+    @keyframes glow { 0% { filter: drop-shadow(0 0 5px #ff0000); } 50% { filter: drop-shadow(0 0 15px #ff0000); } 100% { filter: drop-shadow(0 0 25px #ff0000); } }
+
+    /* Card container */
+    .card { background:#111; padding:30px 25px; border-radius:12px; box-shadow:0 0 20px rgba(255,0,0,0.4); text-align:center; max-width:500px; width:100%; margin-bottom:20px; }
+
+    h1, h2 { color:#ff0000; text-align:center; margin-bottom:15px; }
+    h1 { font-size:3rem; }
+    p { font-size:1rem; margin-bottom:15px; }
+
+    /* Buttons */
+    .btn { padding:12px 25px; border:none; border-radius:6px; background:#ff0000; color:#fff; font-size:1rem; cursor:pointer; transition:all 0.3s ease; text-decoration:none; display:inline-block; }
+    .btn:hover { background:#cc0000; box-shadow:0 0 15px #ff0000; }
+
+    /* Note */
+    .note { font-size:0.9rem; color:#aaa; margin-top:10px; }
+
+    /* Game Buttons */
+    .games-container { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; margin-top:20px; }
+    .game-btn { padding:12px 20px; background:#ff0000; color:#fff; border:none; border-radius:6px; cursor:pointer; transition:0.3s; }
+    .game-btn:hover { background:#cc0000; }
+
+    /* Iframe Overlay */
+    .iframe-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); display:none; align-items:center; justify-content:center; z-index:999; }
+    .iframe-content { position:relative; width:90%; height:90%; max-width:1200px; max-height:800px; }
+    .iframe-content iframe { width:100%; height:100%; border:none; border-radius:12px; }
+    .close-btn { position:absolute; top:10px; right:15px; font-size:2rem; color:#ff0000; cursor:pointer; font-weight:bold; }
+
+    /* Hide until login */
+    #loggedInContent { display:none; }
+  </style>
+</head>
+<body>
+
+  <!-- Logo -->
+  <div class="logo-container">
+    <img src="dragon.png" alt="L1nkdr0p Logo">
+  </div>
+
+  <!-- Landing Card -->
+  <div class="card">
+    <h1>L1nkdr0p</h1>
+    <p>Get free access to five unblocked game links daily. Submit your email for verification first (it's free and just for security).</p>
+    <a href="https://script.google.com/macros/s/AKfycbzku2x2XxwZGl7kWNweZO2grR5XqIjUwwwbjgn2fRe2BWhN6rUGsR4RVgPopp-N1U26/exec" target="_blank" class="btn">Submit Email for Approval</a>
+    <p class="note">Once approved, log in below with Google to access the games.</p>
+    <br><br>
+    <button class="btn" onclick="loginGoogle()">Sign in with Google</button>
+  </div>
+
+  <!-- Logged-in Content -->
+  <div class="card" id="loggedInContent">
+    <h2>Welcome! Choose a game to play:</h2>
+    <div class="games-container" id="gamesContainer"></div>
+  </div>
+
+  <!-- Iframe Overlay -->
+  <div class="iframe-overlay" id="iframeOverlay">
+    <div class="iframe-content">
+      <span class="close-btn" onclick="closeIframe()">×</span>
+      <iframe id="gameIframe" src=""></iframe>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
+
+    // ===== Firebase Setup =====
+    const firebaseConfig = {
+      apiKey: "AIzaSyDUgMKjJsnIF-K9s5nXk9QA27qBuMcpndc",
+      authDomain: "auth-cb5f9.firebaseapp.com",
+      projectId: "auth-cb5f9",
+      storageBucket: "auth-cb5f9.firebasestorage.app",
+      messagingSenderId: "457513426175",
+      appId: "1:457513426175:web:c1705264abc9dbc8ed00ca"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    // ===== Sheet Whitelist =====
+    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTDeOq47ZDCwqHqzMyO17hoCqmVQMQwfjJ13gHrDpf0NWYrLyzO8p5mAu2dfS-CH-NlfOXWXCHtUeZs/pub?output=csv";
+    let allowedEmails = [];
+
+    async function fetchAllowedEmails() {
+      try {
+        const res = await fetch(sheetUrl);
+        const text = await res.text();
+        allowedEmails = text.split("\n").map(line => line.split(",")[0].trim());
+        console.log(`Allowed emails loaded: ${allowedEmails.length}`);
+      } catch {
+        console.log("Failed to load allowlist.");
+      }
+    }
+    fetchAllowedEmails();
+
+    function loginGoogle() {
+      signInWithPopup(auth, provider).then(result => {
+        const email = result.user.email;
+        if(!allowedEmails.includes(email)) return alert("ACCESS DENIED: Unauthorized email.");
+        document.querySelector('.card').style.display = 'none'; // hide landing card
+        document.getElementById('loggedInContent').style.display = 'block';
+        setupGameButtons();
+      }).catch(err => console.error(err));
+    }
+
+    // ===== Game Buttons & Iframes =====
+    const gameLinks = [
+      "https://example1.com",
+      "https://example2.com",
+      "https://example3.com",
+      "https://example4.com",
+      "https://example5.com",
+      "https://example6.com"
+    ];
+
+    function setupGameButtons() {
+      const container = document.getElementById('gamesContainer');
+      container.innerHTML = "";
+      gameLinks.forEach((link, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = `Game ${i+1}`;
+        btn.className = "game-btn";
+        btn.onclick = () => openIframe(link);
+        container.appendChild(btn);
+      });
+    }
+
+    function openIframe(link) {
+      const overlay = document.getElementById('iframeOverlay');
+      const iframe = document.getElementById('gameIframe');
+      iframe.src = link;
+      overlay.style.display = 'flex';
+    }
+
+    function closeIframe() {
+      const overlay = document.getElementById('iframeOverlay');
+      const iframe = document.getElementById('gameIframe');
+      iframe.src = '';
+      overlay.style.display = 'none';
+    }
+
+    // ===== Auth State Listener =====
+    onAuthStateChanged(auth, user => {
+      if(user && allowedEmails.includes(user.email)) {
+        document.querySelector('.card').style.display = 'none';
+        document.getElementById('loggedInContent').style.display = 'block';
+        setupGameButtons();
+      }
+    });
+  </script>
+
+</body>
+</html>
