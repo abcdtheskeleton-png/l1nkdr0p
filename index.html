@@ -1,185 +1,149 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>L1nkdr0p</title>
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; font-family:'Arial', sans-serif; }
-    body { background:#000; color:#fff; min-height:100vh; padding:20px; display:flex; flex-direction:column; align-items:center; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>L1nkdr0p</title>
 
-    /* Logo */
-    .logo-container { text-align:center; margin-bottom:30px; }
-    .logo-container img { width:150px; height:auto; animation: glow 2s infinite alternate; }
-    @keyframes glow { 0% { filter: drop-shadow(0 0 5px #ff0000); } 50% { filter: drop-shadow(0 0 15px #ff0000); } 100% { filter: drop-shadow(0 0 25px #ff0000); } }
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
 
-    /* Card container */
-    .card { background:#111; padding:30px 25px; border-radius:12px; box-shadow:0 0 20px rgba(255,0,0,0.4); text-align:center; max-width:500px; width:100%; margin-bottom:20px; }
+body {
+  background: black;
+  color: white;
+  overflow: hidden;
+}
 
-    h1, h2 { color:#ff0000; text-align:center; margin-bottom:15px; }
-    h1 { font-size:3rem; }
-    p { font-size:1rem; margin-bottom:15px; }
+/* ===== SHARED ===== */
+.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
-    /* Buttons */
-    .btn { padding:12px 25px; border:none; border-radius:6px; background:#ff0000; color:#fff; font-size:1rem; cursor:pointer; transition:all 0.3s ease; text-decoration:none; display:inline-block; margin:5px 0; }
-    .btn:hover { background:#cc0000; box-shadow:0 0 15px #ff0000; }
+/* ===== LANDING ===== */
+#landing {
+  height: 100vh;
+  width: 100%;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
 
-    /* Google Sign-In button style */
-    #googleSignInBtn { display:flex; align-items:center; justify-content:center; gap:10px; font-weight:bold; }
-    #googleSignInBtn img { width:20px; height:20px; }
+#landing.hide {
+  opacity: 0;
+  transform: scale(1.05);
+  pointer-events: none;
+}
 
-    /* Note */
-    .note { font-size:0.9rem; color:#aaa; margin-top:10px; }
+.logo {
+  width: 160px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 20px red);
+  animation: glow 2s infinite alternate;
+}
 
-    /* Game Buttons */
-    .games-container { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; margin-top:20px; }
-    .game-btn { padding:12px 20px; background:#ff0000; color:#fff; border:none; border-radius:6px; cursor:pointer; transition:0.3s; }
-    .game-btn:hover { background:#cc0000; }
+@keyframes glow {
+  from { filter: drop-shadow(0 0 10px red); }
+  to { filter: drop-shadow(0 0 30px red); }
+}
 
-    /* Iframe Overlay */
-    .iframe-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); display:none; align-items:center; justify-content:center; z-index:999; }
-    .iframe-content { position:relative; width:90%; height:90%; max-width:1200px; max-height:800px; }
-    .iframe-content iframe { width:100%; height:100%; border:none; border-radius:12px; }
-    .close-btn { position:absolute; top:10px; right:15px; font-size:2rem; color:#ff0000; cursor:pointer; font-weight:bold; }
+h1 {
+  font-size: 3.2rem;
+  letter-spacing: 4px;
+  color: red;
+  margin-bottom: 30px;
+}
 
-    /* Hide until login */
-    #loggedInContent { display:none; }
+.enter-btn {
+  padding: 14px 40px;
+  font-size: 1.1rem;
+  border: 2px solid red;
+  background: black;
+  color: red;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
 
-    /* Footer */
-    footer { color:#aaa; font-size:0.8rem; margin-top:20px; text-align:center; }
-  </style>
+.enter-btn:hover {
+  background: red;
+  color: black;
+  box-shadow: 0 0 20px red;
+}
+
+/* ===== MENU ===== */
+#menu {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: translateY(30px);
+  pointer-events: none;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+#menu.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+
+.menu-container {
+  gap: 20px;
+}
+
+.menu-btn {
+  width: 260px;
+  padding: 15px;
+  font-size: 1rem;
+  border: 2px solid red;
+  background: #0b0b0b;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.menu-btn:hover {
+  background: red;
+  color: black;
+  box-shadow: 0 0 20px red;
+}
+</style>
 </head>
+
 <body>
 
-  <!-- Logo -->
-  <div class="logo-container">
-    <img src="dragon.png" alt="L1nkdr0p Logo">
+<!-- ===== LANDING SCREEN ===== -->
+<div id="landing" class="center">
+  <img src="dragon.png" class="logo" alt="logo">
+  <h1>L1nkdr0p</h1>
+  <button class="enter-btn" onclick="enterSite()">ENTER</button>
+</div>
+
+<!-- ===== BUTTON MENU ===== -->
+<div id="menu" class="center">
+  <div class="menu-container center">
+    <button class="menu-btn" onclick="openLink('https://archangels.freeddns.org')">Selenite</button>
+    <button class="menu-btn" onclick="openLink('https://dominions.freeddns.org')">Petezah</button>
+    <button class="menu-btn" onclick="openLink('https://cherubim.freeddns.org')">Arcade</button>
+    <button class="menu-btn" onclick="openLink('https://virtuesandpowers.freeddns.org')">Prism</button>
+    <button class="menu-btn" onclick="openLink('https://principalities.freeddns.org')">Neo</button>
   </div>
+</div>
 
-  <!-- Landing Card -->
-  <div class="card" id="landingCard">
-    <h1>L1nkdr0p</h1>
-    <p>Access five unblocked game links daily. Submit your email for verification first (it's free and just for security).</p>
-    <a href="https://script.google.com/macros/s/AKfycbzku2x2XxwZGl7kWNweZO2grR5XqIjUwwwbjgn2fRe2BWhN6rUGsR4RVgPopp-N1U26/exec" target="_blank" class="btn">Submit Email for Approval</a>
-    <p class="note">Once approved, sign in below with Google to access the games.</p>
-    <button class="btn" id="googleSignInBtn"><img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"> Sign in with Google</button>
-  </div>
+<script>
+function enterSite() {
+  document.getElementById('landing').classList.add('hide');
+  document.getElementById('menu').classList.add('show');
+}
 
-  <!-- Logged-in Content -->
-  <div class="card" id="loggedInContent">
-    <h2>Welcome! Choose a game to play:</h2>
-    <div class="games-container" id="gamesContainer"></div>
-  </div>
-
-  <!-- Iframe Overlay -->
-  <div class="iframe-overlay" id="iframeOverlay">
-    <div class="iframe-content">
-      <span class="close-btn" onclick="closeIframe()">×</span>
-      <iframe id="gameIframe" src=""></iframe>
-    </div>
-  </div>
-
-  <footer>L1nkdr0p &copy; 2025</footer>
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.5.0/firebase-auth.js";
-
-    // ===== Firebase Setup =====
-    const firebaseConfig = {
-      apiKey: "AIzaSyDUgMKjJsnIF-K9s5nXk9QA27qBuMcpndc",
-      authDomain: "auth-cb5f9.firebaseapp.com",
-      projectId: "auth-cb5f9",
-      storageBucket: "auth-cb5f9.firebasestorage.app",
-      messagingSenderId: "457513426175",
-      appId: "1:457513426175:web:c1705264abc9dbc8ed00ca",
-      measurementId: "G-8ZKK1LHZN8"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
-
-    // ===== Sheet Whitelist =====
-    const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTDeOq47ZDCwqHqzMyO17hoCqmVQMQwfjJ13gHrDpf0NWYrLyzO8p5mAu2dfS-CH-NlfOXWXCHtUeZs/pub?output=csv";
-    let allowedEmails = [];
-
-    async function fetchAllowedEmails() {
-      try {
-        const res = await fetch(sheetUrl);
-        const text = await res.text();
-        allowedEmails = text.split("\n").map(line => line.split(",")[0].trim());
-        console.log(`Allowed emails loaded: ${allowedEmails.length}`);
-      } catch {
-        console.log("Failed to load allowlist.");
-      }
-    }
-    fetchAllowedEmails();
-
-    // ===== Google Sign-In =====
-    const googleBtn = document.getElementById('googleSignInBtn');
-    googleBtn.addEventListener('click', async () => {
-      try {
-        const result = await signInWithPopup(auth, provider);
-        const email = result.user.email;
-        if (!allowedEmails.includes(email)) {
-          alert("ACCESS DENIED: Unauthorized email.");
-          return;
-        }
-        document.getElementById('landingCard').style.display = 'none';
-        document.getElementById('loggedInContent').style.display = 'block';
-        setupGameButtons();
-      } catch (err) {
-        console.error(err);
-        alert("Sign-in failed. Check console.");
-      }
-    });
-
-    // ===== Game Buttons & Iframes =====
-    const gameLinks = [
-      "https://archangels.freeddns.org/",
-      "https://principalities.freeddns.org/",
-      "https://virtuesandpowers.freeddns.org/",
-      "https://cherubim.freeddns.org/math/",
-      "https://dominions.freeddns.org/",
-      "https://www.seraphim.freeddns.org"
-    ];
-
-    function setupGameButtons() {
-      const container = document.getElementById('gamesContainer');
-      container.innerHTML = "";
-      gameLinks.forEach((link, i) => {
-        const btn = document.createElement('button');
-        btn.textContent = `Game ${i+1}`;
-        btn.className = "game-btn";
-        btn.onclick = () => openIframe(link);
-        container.appendChild(btn);
-      });
-    }
-
-    function openIframe(link) {
-      const overlay = document.getElementById('iframeOverlay');
-      const iframe = document.getElementById('gameIframe');
-      iframe.src = link;
-      overlay.style.display = 'flex';
-    }
-
-    function closeIframe() {
-      const overlay = document.getElementById('iframeOverlay');
-      const iframe = document.getElementById('gameIframe');
-      iframe.src = '';
-      overlay.style.display = 'none';
-    }
-
-    // ===== Auth State Listener =====
-    onAuthStateChanged(auth, user => {
-      if (user && allowedEmails.includes(user.email)) {
-        document.getElementById('landingCard').style.display = 'none';
-        document.getElementById('loggedInContent').style.display = 'block';
-        setupGameButtons();
-      }
-    });
-  </script>
+function openLink(url) {
+  window.location.href = `blank.html?url=${encodeURIComponent(url)}`;
+}
+</script>
 
 </body>
 </html>
