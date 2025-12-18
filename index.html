@@ -54,23 +54,26 @@ body::after {
 /* ===== TITLE TEXT ===== */
 #title {
   position: absolute;
-  right: 10%;
-  top: 44%;               /* slightly higher */
+  right: 18%;              /* pulls it fully on-screen */
+  top: 42%;                /* slightly higher, intentional */
   transform: translateY(-50%);
-  font-size: 1.6rem;      /* much smaller */
-  letter-spacing: 4px;
+  font-size: 1.25rem;      /* smaller, creepier */
+  letter-spacing: 6px;     /* uneasy spacing */
   color: black;
   cursor: pointer;
-  animation: shake 2.8s infinite;
+  animation: shake 1.6s infinite;
+  white-space: nowrap;
 }
   
 /* VERY SUBTLE SHAKE */
 @keyframes shake {
-  0% { transform: translateY(-50%) translate(0); }
-  1% { transform: translateY(-50%) translate(-0.5px, 0.5px); }
-  2% { transform: translateY(-50%) translate(0.5px, -0.5px); }
-  3% { transform: translateY(-50%) translate(0); }
-  100% { transform: translateY(-50%) translate(0); }
+  0%   { transform: translateY(-50%) translate(0,0); }
+  2%   { transform: translateY(-50%) translate(-2px, 1px); }
+  4%   { transform: translateY(-50%) translate(2px, -1px); }
+  6%   { transform: translateY(-50%) translate(-1px, -2px); }
+  8%   { transform: translateY(-50%) translate(1px, 2px); }
+  10%  { transform: translateY(-50%) translate(0,0); }
+  100% { transform: translateY(-50%) translate(0,0); }
 }
 
 /* ===== WHITE VOID ===== */
