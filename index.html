@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>L1nkdr0p</title>
+<title>the second coming…..</title>
 
 <style>
 * {
@@ -42,25 +42,26 @@ body {
 
 .logo {
   width: 160px;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   filter: drop-shadow(0 0 20px red);
   animation: glow 2s infinite alternate;
 }
 
 @keyframes glow {
   from { filter: drop-shadow(0 0 10px red); }
-  to { filter: drop-shadow(0 0 30px red); }
+  to { filter: drop-shadow(0 0 35px red); }
 }
 
 h1 {
-  font-size: 3.2rem;
-  letter-spacing: 4px;
+  font-size: 3rem;
+  letter-spacing: 3px;
   color: red;
   margin-bottom: 30px;
+  text-align: center;
 }
 
 .enter-btn {
-  padding: 14px 40px;
+  padding: 14px 42px;
   font-size: 1.1rem;
   border: 2px solid red;
   background: black;
@@ -72,7 +73,7 @@ h1 {
 .enter-btn:hover {
   background: red;
   color: black;
-  box-shadow: 0 0 20px red;
+  box-shadow: 0 0 25px red;
 }
 
 /* ===== MENU ===== */
@@ -97,7 +98,7 @@ h1 {
 
 .menu-btn {
   width: 260px;
-  padding: 15px;
+  padding: 16px;
   font-size: 1rem;
   border: 2px solid red;
   background: #0b0b0b;
@@ -109,28 +110,28 @@ h1 {
 .menu-btn:hover {
   background: red;
   color: black;
-  box-shadow: 0 0 20px red;
+  box-shadow: 0 0 25px red;
 }
 </style>
 </head>
 
 <body>
 
-<!-- ===== LANDING SCREEN ===== -->
+<!-- ===== LANDING ===== -->
 <div id="landing" class="center">
   <img src="dragon.png" class="logo" alt="logo">
-  <h1>L1nkdr0p</h1>
+  <h1>the second coming…..</h1>
   <button class="enter-btn" onclick="enterSite()">ENTER</button>
 </div>
 
-<!-- ===== BUTTON MENU ===== -->
+<!-- ===== MENU ===== -->
 <div id="menu" class="center">
   <div class="menu-container center">
-    <button class="menu-btn" onclick="openLink('https://archangels.freeddns.org')">Selenite</button>
-    <button class="menu-btn" onclick="openLink('https://dominions.freeddns.org')">Petezah</button>
-    <button class="menu-btn" onclick="openLink('https://cherubim.freeddns.org')">Arcade</button>
-    <button class="menu-btn" onclick="openLink('https://virtuesandpowers.freeddns.org')">Prism</button>
-    <button class="menu-btn" onclick="openLink('https://principalities.freeddns.org')">Neo</button>
+    <button class="menu-btn" onclick="go('https://archangels.freeddns.org')">Selenite</button>
+    <button class="menu-btn" onclick="go('https://dominions.freeddns.org')">Petezah</button>
+    <button class="menu-btn" onclick="go('https://cherubim.freeddns.org')">Arcade</button>
+    <button class="menu-btn" onclick="go('https://virtuesandpowers.freeddns.org')">Prism</button>
+    <button class="menu-btn" onclick="go('https://principalities.freeddns.org')">Neo</button>
   </div>
 </div>
 
@@ -140,8 +141,8 @@ function enterSite() {
   document.getElementById('menu').classList.add('show');
 }
 
-function openLink(url) {
-  window.location.href = `blank.html?url=${encodeURIComponent(url)}`;
+function go(url) {
+  window.open(url, '_self');
 }
 </script>
 
