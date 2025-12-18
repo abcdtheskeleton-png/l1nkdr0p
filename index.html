@@ -20,21 +20,21 @@ body {
   overflow: hidden;
 }
 
-/* ===== BACKGROUND IMAGE ===== */
+/* ===== BACKGROUND IMAGE (NOT ZOOMED) ===== */
 #bg {
   position: fixed;
   inset: 0;
-  background: url("background.png") center / cover no-repeat;
-  filter: brightness(0.45) contrast(1.2);
+  background: url("background.png") center / contain no-repeat black;
+  filter: brightness(0.9);
   z-index: -1;
 }
 
-/* ===== STATIC NOISE ===== */
+/* ===== SUBTLE FILM GRAIN ===== */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: 999;
 }
@@ -51,39 +51,38 @@ body::after {
   pointer-events: none;
 }
 
-/* ===== TITLE ===== */
+/* ===== TITLE TEXT ===== */
 #title {
   position: absolute;
   right: 8%;
   top: 50%;
   transform: translateY(-50%);
   font-size: 3rem;
-  color: #8b0000;
-  letter-spacing: 6px;
+  letter-spacing: 5px;
+  color: black;
   cursor: pointer;
-  animation: glitch 3s infinite;
-  text-shadow: 0 0 20px #600000;
+  animation: shake 2.8s infinite;
 }
 
-@keyframes glitch {
+/* VERY SUBTLE SHAKE */
+@keyframes shake {
   0% { transform: translateY(-50%) translate(0); }
-  1% { transform: translateY(-50%) translate(-2px,2px); }
-  2% { transform: translateY(-50%) translate(2px,-2px); }
+  1% { transform: translateY(-50%) translate(-0.5px, 0.5px); }
+  2% { transform: translateY(-50%) translate(0.5px, -0.5px); }
   3% { transform: translateY(-50%) translate(0); }
   100% { transform: translateY(-50%) translate(0); }
 }
 
-/* ===== VOID PAGE ===== */
+/* ===== WHITE VOID ===== */
 #void {
   position: absolute;
   inset: 0;
-  background: #f2f2f2;
-  color: black;
+  background: white;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 22px;
   opacity: 0;
   pointer-events: none;
   transition: opacity 1s ease;
@@ -96,7 +95,7 @@ body::after {
 
 /* ===== VOID BUTTONS ===== */
 .void-btn {
-  width: 280px;
+  width: 300px;
   padding: 16px;
   font-size: 1rem;
   background: white;
@@ -104,7 +103,7 @@ body::after {
   color: black;
   cursor: pointer;
   letter-spacing: 2px;
-  transition: all 0.3s ease;
+  transition: all 0.25s ease;
 }
 
 .void-btn:hover {
@@ -118,12 +117,12 @@ body::after {
 
 <div id="bg"></div>
 
-<!-- ===== LANDING ===== -->
+<!-- LANDING -->
 <div id="landing">
   <div id="title" onclick="enter()">THE SECOND COMING</div>
 </div>
 
-<!-- ===== WHITE VOID ===== -->
+<!-- WHITE VOID -->
 <div id="void">
   <button class="void-btn" onclick="go('https://archangels.freeddns.org')">SELENITE</button>
   <button class="void-btn" onclick="go('https://dominions.freeddns.org')">PETEZAH</button>
@@ -139,7 +138,7 @@ function enter() {
 }
 
 function go(url) {
-  window.open(url, '_self');
+  window.location.href = url;
 }
 </script>
 
