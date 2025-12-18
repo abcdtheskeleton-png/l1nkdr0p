@@ -6,17 +6,29 @@
 <title>the second coming…..</title>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: Arial, sans-serif;
+  font-family: 'Share Tech Mono', monospace;
 }
 
 body {
-  background: black;
-  color: white;
+  background: #000;
+  color: #ddd;
   overflow: hidden;
+}
+
+/* ===== AMBIENT NOISE ===== */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 999;
 }
 
 /* ===== SHARED ===== */
@@ -31,49 +43,59 @@ body {
 #landing {
   height: 100vh;
   width: 100%;
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transition: opacity 1s ease, transform 1s ease;
 }
 
 #landing.hide {
   opacity: 0;
-  transform: scale(1.05);
+  transform: scale(1.08);
   pointer-events: none;
 }
 
 .logo {
-  width: 160px;
-  margin-bottom: 25px;
-  filter: drop-shadow(0 0 20px red);
-  animation: glow 2s infinite alternate;
+  width: 150px;
+  margin-bottom: 30px;
+  filter: drop-shadow(0 0 25px #7a0000);
+  animation: pulse 2.5s infinite alternate;
 }
 
-@keyframes glow {
-  from { filter: drop-shadow(0 0 10px red); }
-  to { filter: drop-shadow(0 0 35px red); }
+@keyframes pulse {
+  from { filter: drop-shadow(0 0 8px #5a0000); }
+  to { filter: drop-shadow(0 0 35px #8b0000); }
 }
 
 h1 {
-  font-size: 3rem;
-  letter-spacing: 3px;
-  color: red;
-  margin-bottom: 30px;
+  font-size: 2.8rem;
+  letter-spacing: 6px;
+  color: #8b0000;
+  margin-bottom: 35px;
   text-align: center;
+  animation: jitter 3s infinite;
+}
+
+@keyframes jitter {
+  0% { transform: translate(0,0); }
+  1% { transform: translate(-1px,1px); }
+  2% { transform: translate(1px,-1px); }
+  3% { transform: translate(0,0); }
+  100% { transform: translate(0,0); }
 }
 
 .enter-btn {
-  padding: 14px 42px;
-  font-size: 1.1rem;
-  border: 2px solid red;
+  padding: 14px 44px;
+  font-size: 1rem;
+  border: 1px solid #8b0000;
   background: black;
-  color: red;
+  color: #8b0000;
   cursor: pointer;
-  transition: all 0.3s ease;
+  letter-spacing: 3px;
+  transition: all 0.4s ease;
 }
 
 .enter-btn:hover {
-  background: red;
+  background: #8b0000;
   color: black;
-  box-shadow: 0 0 25px red;
+  box-shadow: 0 0 30px #8b0000;
 }
 
 /* ===== MENU ===== */
@@ -81,9 +103,9 @@ h1 {
   position: absolute;
   inset: 0;
   opacity: 0;
-  transform: translateY(30px);
+  transform: translateY(40px);
   pointer-events: none;
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transition: opacity 1s ease, transform 1s ease;
 }
 
 #menu.show {
@@ -93,24 +115,25 @@ h1 {
 }
 
 .menu-container {
-  gap: 20px;
+  gap: 18px;
 }
 
 .menu-btn {
-  width: 260px;
+  width: 270px;
   padding: 16px;
-  font-size: 1rem;
-  border: 2px solid red;
-  background: #0b0b0b;
-  color: white;
+  font-size: 0.95rem;
+  border: 1px solid #7a0000;
+  background: #050505;
+  color: #ccc;
   cursor: pointer;
-  transition: all 0.3s ease;
+  letter-spacing: 2px;
+  transition: all 0.4s ease;
 }
 
 .menu-btn:hover {
-  background: red;
+  background: #7a0000;
   color: black;
-  box-shadow: 0 0 25px red;
+  box-shadow: 0 0 30px #7a0000;
 }
 </style>
 </head>
@@ -120,18 +143,18 @@ h1 {
 <!-- ===== LANDING ===== -->
 <div id="landing" class="center">
   <img src="dragon.png" class="logo" alt="logo">
-  <h1>the second coming…..</h1>
+  <h1>THE SECOND COMING…..</h1>
   <button class="enter-btn" onclick="enterSite()">ENTER</button>
 </div>
 
 <!-- ===== MENU ===== -->
 <div id="menu" class="center">
   <div class="menu-container center">
-    <button class="menu-btn" onclick="go('https://archangels.freeddns.org')">Selenite</button>
-    <button class="menu-btn" onclick="go('https://dominions.freeddns.org')">Petezah</button>
-    <button class="menu-btn" onclick="go('https://cherubim.freeddns.org')">Arcade</button>
-    <button class="menu-btn" onclick="go('https://virtuesandpowers.freeddns.org')">Prism</button>
-    <button class="menu-btn" onclick="go('https://principalities.freeddns.org')">Neo</button>
+    <button class="menu-btn" onclick="go('https://archangels.freeddns.org')">SELENITE</button>
+    <button class="menu-btn" onclick="go('https://dominions.freeddns.org')">PETEZAH</button>
+    <button class="menu-btn" onclick="go('https://cherubim.freeddns.org')">ARCADE</button>
+    <button class="menu-btn" onclick="go('https://virtuesandpowers.freeddns.org')">PRISM</button>
+    <button class="menu-btn" onclick="go('https://principalities.freeddns.org')">NEO</button>
   </div>
 </div>
 
