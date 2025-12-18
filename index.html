@@ -2,143 +2,111 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<title>The Second Coming</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>THE SECOND COMING</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Share Tech Mono', monospace;
 }
 
 body {
   background: black;
   overflow: hidden;
+  font-family: 'VT323', monospace;
 }
 
-/* ===== BACKGROUND IMAGE (NOT ZOOMED) ===== */
-#bg {
+/* ===== SCENE 1 ===== */
+#scene1 {
   position: fixed;
   inset: 0;
-  background: url("background.png") center / contain no-repeat black;
-  filter: brightness(0.9);
-  z-index: -1;
+  background: url("background.png") center/contain no-repeat black;
 }
 
-/* ===== SUBTLE FILM GRAIN ===== */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 999;
-}
-
-/* ===== LANDING ===== */
-#landing {
-  position: absolute;
-  inset: 0;
-  transition: opacity 1s ease;
-}
-
-#landing.hide {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* ===== TITLE TEXT ===== */
 #title {
   position: absolute;
-  right: 30%;              /* pulls it fully on-screen */
-  top: 42%;                /* slightly higher, intentional */
-  transform: translateY(-50%);
-  font-size: 0.90rem;      /* smaller, creepier */
-  letter-spacing: 6px;     /* uneasy spacing */
+  right: 31%;
+  top: 42%;
+  font-size: 0.90rem;
   color: black;
   cursor: pointer;
-  animation: shake 1.6s infinite;
-  white-space: nowrap;
+  animation: shake 0.15s infinite;
+  user-select: none;
 }
-  
-/* VERY SUBTLE SHAKE */
+
 @keyframes shake {
-  0%   { transform: translateY(-50%) translate(0,0); }
-  2%   { transform: translateY(-50%) translate(-2px, 1px); }
-  4%   { transform: translateY(-50%) translate(2px, -1px); }
-  6%   { transform: translateY(-50%) translate(-1px, -2px); }
-  8%   { transform: translateY(-50%) translate(1px, 2px); }
-  10%  { transform: translateY(-50%) translate(0,0); }
-  100% { transform: translateY(-50%) translate(0,0); }
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-1px, 1px); }
+  50% { transform: translate(1px, -1px); }
+  75% { transform: translate(-1px, -1px); }
+  100% { transform: translate(1px, 1px); }
 }
 
-/* ===== WHITE VOID ===== */
-#void {
-  position: absolute;
+/* ===== SCENE 2 ===== */
+#scene2 {
+  position: fixed;
   inset: 0;
-  background: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 22px;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 1s ease;
+  background: url("background2.jpeg") center/cover no-repeat;
+  display: none;
 }
 
-#void.show {
-  opacity: 1;
-  pointer-events: all;
-}
-
-/* ===== VOID BUTTONS ===== */
-.void-btn {
-  width: 300px;
-  padding: 16px;
-  font-size: 1rem;
-  background: white;
-  border: 2px solid black;
-  color: black;
-  cursor: pointer;
-  letter-spacing: 2px;
-  transition: all 0.25s ease;
-}
-
-.void-btn:hover {
+/* ===== BUTTONS ===== */
+.game-btn {
+  position: absolute;
+  padding: 10px 18px;
   background: black;
   color: white;
+  border: 1px solid black;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.2s;
 }
+
+.game-btn:hover {
+  background: #111;
+}
+
+.top-left { top: 20px; left: 20px; }
+.top-right { top: 20px; right: 20px; }
+.bottom-left { bottom: 20px; left: 20px; }
+.bottom-right { bottom: 20px; right: 20px; }
+
 </style>
 </head>
 
 <body>
 
-<div id="bg"></div>
+<!-- AUDIO -->
+<audio id="bgAudio" src="example.mp3" loop></audio>
 
-<!-- LANDING -->
-<div id="landing">
-  <div id="title" onclick="enter()">THE SECOND COMING</div>
+<!-- SCENE 1 -->
+<div id="scene1">
+  <div id="title">THE SECOND COMING</div>
 </div>
 
-<!-- WHITE VOID -->
-<div id="void">
-  <button class="void-btn" onclick="go('https://archangels.freeddns.org')">SELENITE</button>
-  <button class="void-btn" onclick="go('https://dominions.freeddns.org')">PETEZAH</button>
-  <button class="void-btn" onclick="go('https://cherubim.freeddns.org')">ARCADE</button>
-  <button class="void-btn" onclick="go('https://virtuesandpowers.freeddns.org')">PRISM</button>
-  <button class="void-btn" onclick="go('https://principalities.freeddns.org')">NEO</button>
+<!-- SCENE 2 -->
+<div id="scene2">
+  <button class="game-btn top-left" onclick="go('https://archangels.freeddns.org')">SELENITE</button>
+  <button class="game-btn top-right" onclick="go('https://dominions.freeddns.org')">PETEZAH</button>
+  <button class="game-btn bottom-left" onclick="go('https://cherubim.freeddns.org')">ARCADE</button>
+  <button class="game-btn bottom-right" onclick="go('https://virtuesandpowers.freeddns.org')">PRISM</button>
 </div>
 
 <script>
-function enter() {
-  document.getElementById('landing').classList.add('hide');
-  document.getElementById('void').classList.add('show');
-}
+const title = document.getElementById("title");
+const scene1 = document.getElementById("scene1");
+const scene2 = document.getElementById("scene2");
+const audio = document.getElementById("bgAudio");
+
+title.addEventListener("click", () => {
+  audio.play();
+  scene1.style.display = "none";
+  scene2.style.display = "block";
+});
 
 function go(url) {
   window.location.href = url;
